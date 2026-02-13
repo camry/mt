@@ -17,31 +17,31 @@ func Register(tableManager ITableManager) {
     tableMap[tableManager.TableName()] = tableManager
 }
 
-type Manager struct {
+type TableServer struct {
     db     *gorm.DB
     ec     *clientv3.Client
     cancel context.CancelFunc
 }
 
-func New(db *gorm.DB, ec *clientv3.Client) *Manager {
-    return &Manager{
+func New(db *gorm.DB, ec *clientv3.Client) *TableServer {
+    return &TableServer{
         db: db,
         ec: ec,
     }
 }
 
-func (x *Manager) Start(ctx context.Context) error {
+func (x *TableServer) Start(ctx context.Context) error {
     ctx, x.cancel = context.WithCancel(ctx)
     var cTables []*cpb.CTables
     err := x.db.Find(&cTables).Error
     if err != nil {
-        return gerror.Wrap(err, "Manager Start DB Find cpb.CTables Failed")
+        return gerror.Wrap(err, "TableServer Start DB Find cpb.CTables Failed")
     }
     for _, cTable := range cTables {
         if iTableManager, ok := tableMap[cTable.GetTableName()]; ok {
             err = iTableManager.Load(cTable.GetTableCrc(), cTable.GetTableData())
             if err != nil {
-                return gerror.Wrapf(err, "Manager Start ITableManager Load %s Failed", cTable.GetTableName())
+                return gerror.Wrapf(err, "TableServer Start ITableManager Load %s Failed", cTable.GetTableName())
             }
         }
     }
@@ -49,20 +49,20 @@ func (x *Manager) Start(ctx context.Context) error {
     return nil
 }
 
-func (x *Manager) Stop(ctx context.Context) error {
+func (x *TableServer) Stop(ctx context.Context) error {
     tableMap = make(map[string]ITableManager, TableSizeDefault)
-    glog.Debugf("Manager Stop")
+    glog.Debugf("TableServer Stop")
     if x.cancel != nil {
         x.cancel()
     }
     return nil
 }
 
-func (x *Manager) watch(ctx context.Context) {
+func (x *TableServer) watch(ctx context.Context) {
     for {
         select {
         case <-ctx.Done():
-            glog.Debugf("Manager watch Stop")
+            glog.Debugf("TableServer watch Stop")
             return
         case watchResponse := <-x.ec.Watch(ctx, TableKeyDefault):
             for _, event := range watchResponse.Events {
@@ -71,7 +71,7 @@ func (x *Manager) watch(ctx context.Context) {
                     cTableIndex := &cpb.CTableIndex{}
                     err := proto.Unmarshal(event.Kv.Value, cTableIndex)
                     if err != nil {
-                        glog.Error(gerror.Wrap(err, "Manager watch proto.Unmarshal Failed"))
+                        glog.Error(gerror.Wrap(err, "TableServer watch proto.Unmarshal Failed"))
                         continue
                     }
                     tableNameList := make([]string, 0, TableSizeDefault)
@@ -80,14 +80,14 @@ func (x *Manager) watch(ctx context.Context) {
                             if iTableManager.TableCrc() != cTableHash.GetTableCrc() {
                                 tableNameList = append(tableNameList, cTableHash.GetTableName())
                             } else {
-                                glog.Debugf("Manager watch TableName %s cTable=%d EQ cTableIndexHash=%d", cTableHash.GetTableName(), cTableHash.GetTableCrc(), cTableHash.GetTableCrc())
+                                glog.Debugf("TableServer watch TableName %s cTable=%d EQ cTableIndexHash=%d", cTableHash.GetTableName(), cTableHash.GetTableCrc(), cTableHash.GetTableCrc())
                             }
                         }
                     }
                     var cTables []*cpb.CTables
                     err = x.db.Where("table_name IN ?", tableNameList).Find(&cTables).Error
                     if err != nil {
-                        glog.Error(gerror.Wrap(err, "Manager watch DB Find cbpb.CTables Failed"))
+                        glog.Error(gerror.Wrap(err, "TableServer watch DB Find cbpb.CTables Failed"))
                         continue
                     }
                     for _, cTable := range cTables {
@@ -97,11 +97,11 @@ func (x *Manager) watch(ctx context.Context) {
                             if cTable.GetTableCrc() == cTableHash.GetTableCrc() {
                                 err = iTableManager.Watch(cTable.GetTableCrc(), cTable.GetTableData())
                                 if err != nil {
-                                    glog.Error(gerror.Wrapf(err, "Manager watch ITableManager Watch %s Failed", cTable.GetTableName()))
+                                    glog.Error(gerror.Wrapf(err, "TableServer watch ITableManager Watch %s Failed", cTable.GetTableName()))
                                     continue
                                 }
                             } else {
-                                glog.Warnf("Manager watch TableName %s cTable=%d NE cTableHash=%d", cTable.GetTableName(), cTable.GetTableCrc(), cTableHash.GetTableCrc())
+                                glog.Warnf("TableServer watch TableName %s cTable=%d NE cTableHash=%d", cTable.GetTableName(), cTable.GetTableCrc(), cTableHash.GetTableCrc())
                             }
                         }
                     }

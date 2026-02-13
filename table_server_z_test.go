@@ -64,7 +64,7 @@ func TestNew(t *testing.T) {
     assert.Nil(t, err)
     t.Log(baseLevelCache)
 
-    time.Sleep(time.Second * 8)
+    time.Sleep(time.Second * 5)
 
     cTableIndex := &cpb.CTableIndex{}
     cTableIndex.TableHashMap = map[string]*cpb.CTableHash{
@@ -78,24 +78,24 @@ func TestNew(t *testing.T) {
     _, err = etcdClient.Put(context.Background(), mt.TableKeyDefault, string(cTableIndexBlob))
     assert.Nil(t, err)
 
-    time.Sleep(time.Second * 3)
+    time.Sleep(time.Second * 1)
 
     err = x.Stop(context.Background())
     assert.Nil(t, err)
 }
 
-func TestManager_Start(t *testing.T) {
+func TestTableServer_Start(t *testing.T) {
     db, err := defaultDB()
     assert.Nil(t, err)
     etcdClient, err := defaultEtcdClient()
     assert.Nil(t, err)
-    mtServer := mt.New(db, etcdClient)
+    tableServer := mt.New(db, etcdClient)
 
     app := dove.New(
         dove.Name("dove"),
         dove.Version(dove.Release),
         dove.Context(context.Background()),
-        dove.Server(mtServer),
+        dove.Server(tableServer),
         dove.BeforeStart(func(_ context.Context) error {
             log.Println("BeforeStart...")
             return nil
