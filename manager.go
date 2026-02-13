@@ -18,8 +18,9 @@ func Register(tableManager ITableManager) {
 }
 
 type Manager struct {
-    db *gorm.DB
-    ec *clientv3.Client
+    db     *gorm.DB
+    ec     *clientv3.Client
+    cancel context.CancelFunc
 }
 
 func New(db *gorm.DB, ec *clientv3.Client) *Manager {
@@ -30,6 +31,7 @@ func New(db *gorm.DB, ec *clientv3.Client) *Manager {
 }
 
 func (x *Manager) Start(ctx context.Context) error {
+    ctx, x.cancel = context.WithCancel(ctx)
     var cTables []*cpb.CTables
     err := x.db.Find(&cTables).Error
     if err != nil {
@@ -47,9 +49,12 @@ func (x *Manager) Start(ctx context.Context) error {
     return nil
 }
 
-func (x *Manager) Stop(context.Context) error {
+func (x *Manager) Stop(ctx context.Context) error {
     tableMap = make(map[string]ITableManager, TableSizeDefault)
     glog.Debugf("Manager Stop")
+    if x.cancel != nil {
+        x.cancel()
+    }
     return nil
 }
 
@@ -57,6 +62,7 @@ func (x *Manager) watch(ctx context.Context) {
     for {
         select {
         case <-ctx.Done():
+            glog.Debugf("Manager watch Stop")
             return
         case watchResponse := <-x.ec.Watch(ctx, TableKeyDefault):
             for _, event := range watchResponse.Events {

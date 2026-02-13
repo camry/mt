@@ -94,6 +94,7 @@ func TestManager_Start(t *testing.T) {
     app := dove.New(
         dove.Name("dove"),
         dove.Version(dove.Release),
+        dove.Context(context.Background()),
         dove.Server(mtServer),
         dove.BeforeStart(func(_ context.Context) error {
             log.Println("BeforeStart...")
