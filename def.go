@@ -1,8 +1,13 @@
 package mt
 
+const (
+    TableSizeDefault = 500
+    TableKeyDefault  = "CTables"
+)
+
 type ITableManager interface {
     TableName() string
-    TableCrC() uint32
-    Load(tableCrC uint32, tableData []byte) error
-    Watch(tableCrC uint32, tableData []byte) error
+    TableCrc() uint32
+    Load(tableCrc uint32, tableData []byte) error
+    Watch(tableCrc uint32, tableData []byte) error
 }
