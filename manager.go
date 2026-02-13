@@ -49,6 +49,7 @@ func (x *Manager) Start(ctx context.Context) error {
 
 func (x *Manager) Stop(context.Context) error {
     tableMap = make(map[string]ITableManager, TableSizeDefault)
+    glog.Debugf("Manager Stop")
     return nil
 }
 

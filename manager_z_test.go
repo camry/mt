@@ -2,9 +2,12 @@ package mt_test
 
 import (
     "context"
+    "log"
     "testing"
     "time"
 
+    "github.com/camry/dove/v2"
+    "github.com/camry/g/v2/glog"
     "github.com/camry/pb/cpb"
     "github.com/stretchr/testify/assert"
     "gitlab.walrus.cs/treasure/treasure-pb/sbpb"
@@ -79,4 +82,40 @@ func TestNew(t *testing.T) {
 
     err = x.Stop(context.Background())
     assert.Nil(t, err)
+}
+
+func TestManager_Start(t *testing.T) {
+    db, err := defaultDB()
+    assert.Nil(t, err)
+    etcdClient, err := defaultEtcdClient()
+    assert.Nil(t, err)
+    mtServer := mt.New(db, etcdClient)
+
+    app := dove.New(
+        dove.Name("dove"),
+        dove.Version(dove.Release),
+        dove.Server(mtServer),
+        dove.BeforeStart(func(_ context.Context) error {
+            log.Println("BeforeStart...")
+            return nil
+        }),
+        dove.BeforeStop(func(_ context.Context) error {
+            log.Println("BeforeStop...")
+            return nil
+        }),
+        dove.AfterStart(func(_ context.Context) error {
+            log.Println("AfterStart...")
+            return nil
+        }),
+        dove.AfterStop(func(_ context.Context) error {
+            log.Println("AfterStop...")
+            return nil
+        }),
+    )
+    time.AfterFunc(time.Second, func() {
+        _ = app.Stop()
+    })
+    if err := app.Run(); err != nil {
+        glog.Fatal(err)
+    }
 }
