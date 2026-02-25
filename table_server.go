@@ -43,6 +43,7 @@ func (x *TableServer) Start(ctx context.Context) error {
             if err != nil {
                 return gerror.Wrapf(err, "TableServer Start ITableManager Load %s Failed", cTable.GetTableName())
             }
+            glog.Debugf("TableServer Start ITableManager Load %s Success", cTable.GetTableName())
         }
     }
     go x.watch(ctx)
