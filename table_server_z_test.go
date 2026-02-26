@@ -19,7 +19,6 @@ import (
 
     "github.com/camry/mt"
     "github.com/camry/mt/tables"
-    _ "github.com/camry/mt/tables"
 )
 
 func defaultDB() (*gorm.DB, error) {
