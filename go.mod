@@ -1,4 +1,4 @@
-module github.com/camry/mt
+module gitea.meigushi.go/meigushi/mt
 
 go 1.25.6
 

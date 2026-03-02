@@ -6,9 +6,9 @@ import (
     "testing"
     "time"
 
+    "gitea.meigushi.go/meigushi/pb/cpb"
     "github.com/camry/dove/v2"
     "github.com/camry/g/v2/glog"
-    "github.com/camry/pb/cpb"
     "github.com/stretchr/testify/assert"
     "gitlab.walrus.cs/treasure/treasure-pb/sbpb"
     clientv3 "go.etcd.io/etcd/client/v3"
@@ -17,8 +17,8 @@ import (
     "gorm.io/gorm"
     "gorm.io/gorm/logger"
 
-    "github.com/camry/mt"
-    "github.com/camry/mt/tables"
+    "gitea.meigushi.go/meigushi/mt"
+    "gitea.meigushi.go/meigushi/mt/tables"
 )
 
 func defaultDB() (*gorm.DB, error) {

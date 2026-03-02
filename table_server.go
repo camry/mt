@@ -3,9 +3,9 @@ package mt
 import (
     "context"
 
+    "gitea.meigushi.go/meigushi/pb/cpb"
     "github.com/camry/g/v2/gerrors/gerror"
     "github.com/camry/g/v2/glog"
-    "github.com/camry/pb/cpb"
     "go.etcd.io/etcd/client/v3"
     "google.golang.org/protobuf/proto"
     "gorm.io/gorm"
