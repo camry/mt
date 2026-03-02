@@ -1,5 +1,7 @@
 filippo.io/edwards25519 v1.1.0 h1:FNf4tywRC1HmFuKW5xopWpigGjJKiJSV0Cqo0cJWDaA=
 filippo.io/edwards25519 v1.1.0/go.mod h1:BxyFTGdWcka3PhytdK4V28tE5sGfRvvvRV7EaN4VDT4=
+gitea.meigushi.go/meigushi/pb v1.0.0 h1:FcapjhrG/yPhzWDUp6OlD1FNXQfw0NNaIkG2t3er1fw=
+gitea.meigushi.go/meigushi/pb v1.0.0/go.mod h1:6T5MYiuNhW6ONMNzyLd2MOBoY1L0dwVoDwXAzQGBKuI=
 github.com/bluele/gcache v0.0.2 h1:WcbfdXICg7G/DGBh1PFfcirkWOQV+v077yF1pSy3DGw=
 github.com/bluele/gcache v0.0.2/go.mod h1:m15KV+ECjptwSPxKhOhQoAFQVtUFjTVkc3H8o0t/fp0=
 github.com/camry/dove/v2 v2.0.0 h1:0MI+5tu6wvDIbYzMwJwxW/c37L4wrADBCGYu58oPP2s=

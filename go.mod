@@ -3,6 +3,7 @@ module gitea.meigushi.go/meigushi/mt
 go 1.25.6
 
 require (
+	gitea.meigushi.go/meigushi/pb v1.0.0
 	github.com/bluele/gcache v0.0.2
 	github.com/camry/g/v2 v2.0.2
 	github.com/stretchr/testify v1.11.1
