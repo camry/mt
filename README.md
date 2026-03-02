@@ -60,7 +60,7 @@ mt 是一个高性能的 Go 语言表格管理服务框架，专门用于游戏�
 ### 核心常量
 ```go
 const (
-    TableSizeDefault = 500      // 默认表格映射大小
+    TableSizeDefault = 500       // 默认表格映射大小
     TableKeyDefault  = "CTables" // etcd 配置键前缀
 )
 ```
