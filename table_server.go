@@ -55,7 +55,7 @@ func (x *TableServer) Start(_ context.Context) error {
     if err != nil {
         return gerror.Wrap(err, "TableServer Start DB Find cpb.CTables Failed")
     }
-    chunkCTables := lo.Chunk(cTables, 10)
+    chunkCTables := lo.Chunk(cTables, 20)
     for _, cCTables := range chunkCTables {
         wg.Go(func() {
             for _, cTable := range cCTables {
