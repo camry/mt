@@ -76,10 +76,8 @@ func (x *TableServer) Start(_ context.Context) error {
 
 func (x *TableServer) Stop(_ context.Context) error {
     glog.Debugf("TableServer Stop")
-    tableMap = make(map[string]ITableManager, TableSizeDefault)
-    if x.cancel != nil {
-        x.cancel()
-    }
+    defer x.cancel()
+    clear(tableMap)
     return nil
 }
 
