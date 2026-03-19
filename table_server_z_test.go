@@ -14,7 +14,6 @@ import (
     "gorm.io/gorm/logger"
 
     "gitea.meigushi.go/meigushi/mt"
-    _ "gitea.meigushi.go/meigushi/mt/tables"
 )
 
 func defaultDB() (*gorm.DB, error) {
