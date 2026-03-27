@@ -3,7 +3,7 @@ module gitea.meigushi.go/meigushi/mt
 go 1.25.6
 
 require (
-	gitea.meigushi.go/meigushi/pb v1.0.2
+	gitea.meigushi.go/meigushi/pb v1.0.3
 	github.com/camry/dove/v2 v2.0.0
 	github.com/camry/g/v2 v2.0.2
 	github.com/samber/lo v1.53.0

@@ -4,6 +4,8 @@ gitea.meigushi.go/meigushi/pb v1.0.1 h1:EfrZBa2R8Ib40Mu/QUI+bPhpnCRQDFsgjJ0VlT0U
 gitea.meigushi.go/meigushi/pb v1.0.1/go.mod h1:6T5MYiuNhW6ONMNzyLd2MOBoY1L0dwVoDwXAzQGBKuI=
 gitea.meigushi.go/meigushi/pb v1.0.2 h1:RmYxkTkBoWydOaBzxbst8KqNar3s9AoDbtKTE7Atlj8=
 gitea.meigushi.go/meigushi/pb v1.0.2/go.mod h1:6T5MYiuNhW6ONMNzyLd2MOBoY1L0dwVoDwXAzQGBKuI=
+gitea.meigushi.go/meigushi/pb v1.0.3 h1:v+JZZjdfoxBXiFuGjcgrWnP0WEmd+N9oTGXM6/d2xw8=
+gitea.meigushi.go/meigushi/pb v1.0.3/go.mod h1:6T5MYiuNhW6ONMNzyLd2MOBoY1L0dwVoDwXAzQGBKuI=
 github.com/camry/dove/v2 v2.0.0 h1:0MI+5tu6wvDIbYzMwJwxW/c37L4wrADBCGYu58oPP2s=
 github.com/camry/dove/v2 v2.0.0/go.mod h1:zr1Hu8hmZx4WcRgBTn9LWhP4r+tORQTGLR/HZ6GN3xo=
 github.com/camry/g/v2 v2.0.2 h1:iGoqD6AV2zw6+8JhCkeWHzO7qZ4H7wZqqszSXNg/X3Y=
