@@ -42,7 +42,7 @@ func New(opts ...TableOption) *TableServer {
 }
 
 func (x *TableServer) Start(_ context.Context) error {
-    glog.Debugf("TableServer Start")
+    glog.Info("[TABLE] server starting")
     if x.opts.db == nil {
         return gerror.New("TableServer Start gorm DB is nil")
     }
@@ -77,7 +77,7 @@ func (x *TableServer) Start(_ context.Context) error {
 }
 
 func (x *TableServer) Stop(_ context.Context) error {
-    glog.Debugf("TableServer Stop")
+    glog.Info("[TABLE] server stopping")
     defer x.cancel()
     clear(tableMap)
     return nil
