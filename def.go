@@ -1,8 +1,9 @@
 package mt
 
 const (
-    TableSizeDefault = 500
-    TableKeyDefault  = "CTables"
+    TableSizeDefault      = 500
+    TableKeyPrefixDefault = "/mt"
+    TableKeyName          = "CTables"
 )
 
 type ITableManager interface {

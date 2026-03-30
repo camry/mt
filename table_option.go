@@ -10,9 +10,10 @@ import (
 type TableOption func(x *tableOptions)
 
 type tableOptions struct {
-    db  *gorm.DB
-    ec  *clientv3.Client
-    ctx context.Context
+    db             *gorm.DB
+    ec             *clientv3.Client
+    ctx            context.Context
+    tableKeyPrefix string
 }
 
 func WithGORM(db *gorm.DB) func(x *tableOptions) {
@@ -25,4 +26,8 @@ func WithEtcdClient(ec *clientv3.Client) func(x *tableOptions) {
 
 func WithContext(ctx context.Context) func(x *tableOptions) {
     return func(x *tableOptions) { x.ctx = ctx }
+}
+
+func WithTableKeyPrefix(tableKeyPrefix string) func(x *tableOptions) {
+    return func(x *tableOptions) { x.tableKeyPrefix = tableKeyPrefix }
 }

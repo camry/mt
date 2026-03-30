@@ -2,6 +2,7 @@ package mt
 
 import (
     "context"
+    "fmt"
     "sync"
 
     "gitea.meigushi.go/meigushi/pb/cpb"
@@ -26,7 +27,8 @@ type TableServer struct {
 
 func New(opts ...TableOption) *TableServer {
     o := &tableOptions{
-        ctx: context.Background(),
+        ctx:            context.Background(),
+        tableKeyPrefix: TableKeyPrefixDefault,
     }
     for _, opt := range opts {
         opt(o)
@@ -87,7 +89,7 @@ func (x *TableServer) watch() {
         case <-x.ctx.Done():
             glog.Debugf("TableServer watch context cancel")
             return
-        case watchResponse := <-x.opts.ec.Watch(x.ctx, TableKeyDefault):
+        case watchResponse := <-x.opts.ec.Watch(x.ctx, fmt.Sprintf("%s/%s", x.opts.tableKeyPrefix, TableKeyName)):
             for _, event := range watchResponse.Events {
                 switch event.Type {
                 case clientv3.EventTypePut:
