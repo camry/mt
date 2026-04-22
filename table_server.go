@@ -125,6 +125,7 @@ func (x *TableServer) watch() {
                                     glog.Error(gerror.Wrapf(err, "TableServer watch ITableManager Watch %s Failed", cTable.GetTableName()))
                                     continue
                                 }
+                                glog.Debugf("TableServer watch ITableManager Watch %s Success", cTable.GetTableName())
                             } else {
                                 glog.Warnf("TableServer watch TableName %s cTable=%d NE cTableHash=%d", cTable.GetTableName(), cTable.GetTableCrc(), cTableHash.GetTableCrc())
                             }
