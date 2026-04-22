@@ -109,11 +109,13 @@ func (x *TableServer) watch() {
                             }
                         }
                     }
-                    var cTables []*cpb.CTables
-                    err = x.opts.db.Where("table_name IN ?", tableNameList).Find(&cTables).Error
-                    if err != nil {
-                        glog.Error(gerror.Wrap(err, "TableServer watch DB Find cbpb.CTables Failed"))
-                        continue
+                    cTables := make([]*cpb.CTables, 0, len(tableNameList))
+                    if len(tableNameList) > 0 {
+                        err = x.opts.db.Where("table_name IN ?", tableNameList).Find(&cTables).Error
+                        if err != nil {
+                            glog.Error(gerror.Wrap(err, "TableServer watch DB Find cbpb.CTables Failed"))
+                            continue
+                        }
                     }
                     for _, cTable := range cTables {
                         iTableManager, ok1 := tableMap[cTable.GetTableName()]
