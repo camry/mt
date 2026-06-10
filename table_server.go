@@ -10,7 +10,7 @@ import (
     "github.com/camry/g/v2/glog"
     "github.com/samber/lo"
     "go.etcd.io/etcd/client/v3"
-    "google.golang.org/protobuf/proto"
+    "google.golang.org/protobuf/encoding/protojson"
 )
 
 var tableMap = make(map[string]ITableManager, TableSizeDefault)
@@ -94,9 +94,9 @@ func (x *TableServer) watch() {
                 switch event.Type {
                 case clientv3.EventTypePut:
                     cTableIndex := &cpb.CTableIndex{}
-                    err := proto.Unmarshal(event.Kv.Value, cTableIndex)
+                    err := protojson.Unmarshal(event.Kv.Value, cTableIndex)
                     if err != nil {
-                        glog.Error(gerror.Wrap(err, "TableServer watch proto.Unmarshal Failed"))
+                        glog.Error(gerror.Wrap(err, "TableServer watch protojson.Unmarshal Failed"))
                         continue
                     }
                     tableNameList := make([]string, 0, TableSizeDefault)
