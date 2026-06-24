@@ -14,6 +14,7 @@ type tableOptions struct {
     ec             *clientv3.Client
     ctx            context.Context
     tableKeyPrefix string
+    tableNames     []string
 }
 
 func WithGORM(db *gorm.DB) func(x *tableOptions) {
@@ -30,4 +31,8 @@ func WithContext(ctx context.Context) func(x *tableOptions) {
 
 func WithTableKeyPrefix(tableKeyPrefix string) func(x *tableOptions) {
     return func(x *tableOptions) { x.tableKeyPrefix = tableKeyPrefix }
+}
+
+func WithTables(tableNames ...string) func(x *tableOptions) {
+    return func(x *tableOptions) { x.tableNames = tableNames }
 }

@@ -61,6 +61,9 @@ func (x *TableServer) Start(_ context.Context) error {
     for _, cCTables := range chunkCTables {
         wg.Go(func() {
             for _, cTable := range cCTables {
+                if lo.Contains(x.opts.tableNames, cTable.GetTableName()) {
+                    continue
+                }
                 if iTableManager, ok := tableMap[cTable.GetTableName()]; ok {
                     err = iTableManager.Load(cTable.GetTableCrc(), cTable.GetTableData())
                     if err != nil {
@@ -101,6 +104,9 @@ func (x *TableServer) watch() {
                     }
                     tableNameList := make([]string, 0, TableSizeDefault)
                     for _, cTableHash := range cTableIndex.GetTableHashMap() {
+                        if lo.Contains(x.opts.tableNames, cTableHash.GetTableName()) {
+                            continue
+                        }
                         if iTableManager, ok := tableMap[cTableHash.GetTableName()]; ok {
                             if iTableManager.TableCrc() != cTableHash.GetTableCrc() {
                                 tableNameList = append(tableNameList, cTableHash.GetTableName())
