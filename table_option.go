@@ -15,6 +15,7 @@ type tableOptions struct {
     ctx            context.Context
     tableKeyPrefix string
     tableNames     []string
+    afterStart     []func(context.Context) error
 }
 
 func WithGORM(db *gorm.DB) func(x *tableOptions) {
@@ -35,4 +36,10 @@ func WithTableKeyPrefix(tableKeyPrefix string) func(x *tableOptions) {
 
 func WithTables(tableNames ...string) func(x *tableOptions) {
     return func(x *tableOptions) { x.tableNames = tableNames }
+}
+
+func AfterStart(fn func(context.Context) error) TableOption {
+    return func(o *tableOptions) {
+        o.afterStart = append(o.afterStart, fn)
+    }
 }

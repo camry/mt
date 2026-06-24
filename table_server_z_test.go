@@ -18,11 +18,11 @@ import (
 
 func defaultDB() (*gorm.DB, error) {
     db, err := gorm.Open(mysql.New(mysql.Config{
-        DSN: "dev:Zqa5Q5pYgvmT@tcp(192.168.110.112:3306)/treasure_base?timeout=10s&parseTime=true&charset=utf8mb4",
+        DSN: "wild:skUbPzoif4K9uA3n@tcp(192.168.11.77:3306)/wild_conf?charset=utf8mb4&parseTime=True&loc=Local",
     }), &gorm.Config{
         SkipDefaultTransaction: true,
         DisableAutomaticPing:   true,
-        Logger:                 logger.Default.LogMode(logger.Silent),
+        Logger:                 logger.Default.LogMode(logger.Info),
     })
     if err != nil {
         return nil, err
@@ -32,7 +32,9 @@ func defaultDB() (*gorm.DB, error) {
 
 func defaultEtcdClient() (*clientv3.Client, error) {
     cli, err := clientv3.New(clientv3.Config{
-        Endpoints:   []string{"192.168.110.5:2379"},
+        Username:    "wild",
+        Password:    "bZbETE3bZP8RvT68",
+        Endpoints:   []string{"192.168.11.77:2379", "192.168.11.77:2479"},
         DialTimeout: 5 * time.Second,
     })
     return cli, err
@@ -43,7 +45,15 @@ func TestTableServer_Start(t *testing.T) {
     assert.Nil(t, err)
     etcdClient, err := defaultEtcdClient()
     assert.Nil(t, err)
-    tableServer := mt.New(mt.WithGORM(db), mt.WithEtcdClient(etcdClient))
+    tableServer := mt.New(
+        mt.WithGORM(db),
+        mt.WithEtcdClient(etcdClient),
+        mt.WithTables("base_buff", "base_skill", "base_skill_level"),
+        mt.AfterStart(func(ctx context.Context) error {
+            glog.Debug("TableServer AfterStart")
+            return nil
+        }),
+    )
 
     app := dove.New(
         dove.Name("dove"),
@@ -70,7 +80,7 @@ func TestTableServer_Start(t *testing.T) {
     time.AfterFunc(time.Second, func() {
         _ = app.Stop()
     })
-    if err := app.Run(); err != nil {
+    if err = app.Run(); err != nil {
         glog.Fatal(err)
     }
 }

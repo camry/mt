@@ -52,8 +52,13 @@ func (x *TableServer) Start(_ context.Context) error {
     var (
         cTables []*cpb.CTables
         wg      sync.WaitGroup
+        wgWatch sync.WaitGroup
     )
-    err := x.opts.db.Find(&cTables).Error
+    db := x.opts.db
+    if len(x.opts.tableNames) > 0 {
+        db = db.Where("table_name IN ?", x.opts.tableNames)
+    }
+    err := db.Find(&cTables).Error
     if err != nil {
         return gerror.Wrap(err, "TableServer Start DB Find cpb.CTables Failed")
     }
@@ -61,9 +66,6 @@ func (x *TableServer) Start(_ context.Context) error {
     for _, cCTables := range chunkCTables {
         wg.Go(func() {
             for _, cTable := range cCTables {
-                if !lo.Contains(x.opts.tableNames, cTable.GetTableName()) {
-                    continue
-                }
                 if iTableManager, ok := tableMap[cTable.GetTableName()]; ok {
                     err = iTableManager.Load(cTable.GetTableCrc(), cTable.GetTableData())
                     if err != nil {
@@ -74,8 +76,14 @@ func (x *TableServer) Start(_ context.Context) error {
             }
         })
     }
-    wg.Go(x.watch)
     wg.Wait()
+    for _, fn := range x.opts.afterStart {
+        if err = fn(x.ctx); err != nil {
+            return err
+        }
+    }
+    wgWatch.Go(x.watch)
+    wgWatch.Wait()
     return nil
 }
 
@@ -104,7 +112,7 @@ func (x *TableServer) watch() {
                     }
                     tableNameList := make([]string, 0, TableSizeDefault)
                     for _, cTableHash := range cTableIndex.GetTableHashMap() {
-                        if !lo.Contains(x.opts.tableNames, cTableHash.GetTableName()) {
+                        if len(x.opts.tableNames) > 0 && !lo.Contains(x.opts.tableNames, cTableHash.GetTableName()) {
                             continue
                         }
                         if iTableManager, ok := tableMap[cTableHash.GetTableName()]; ok {
