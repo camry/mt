@@ -38,7 +38,7 @@ func WithTables(tableNames ...string) func(x *tableOptions) {
     return func(x *tableOptions) { x.tableNames = tableNames }
 }
 
-func AfterStart(fn func(context.Context) error) TableOption {
+func WithAfterStart(fn func(context.Context) error) TableOption {
     return func(o *tableOptions) {
         o.afterStart = append(o.afterStart, fn)
     }

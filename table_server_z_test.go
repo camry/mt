@@ -49,7 +49,7 @@ func TestTableServer_Start(t *testing.T) {
         mt.WithGORM(db),
         mt.WithEtcdClient(etcdClient),
         mt.WithTables("base_buff", "base_skill", "base_skill_level"),
-        mt.AfterStart(func(ctx context.Context) error {
+        mt.WithAfterStart(func(ctx context.Context) error {
             glog.Debug("TableServer AfterStart")
             return nil
         }),
