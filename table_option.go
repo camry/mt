@@ -45,7 +45,7 @@ func WithAfterStart(fn func(context.Context) error) TableOption {
     }
 }
 
-func WithWatchHandler(fn func(ctx context.Context, watchTableManager map[string]ITableManager)) TableOption {
+func WithWatchHandler(fn func(context.Context, map[string]ITableManager)) TableOption {
     return func(o *tableOptions) {
         o.watchHandler = fn
     }
