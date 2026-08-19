@@ -16,6 +16,7 @@ type tableOptions struct {
     tableKeyPrefix string
     tableNames     []string
     afterStart     []func(context.Context) error
+    watchHandler   func(ctx context.Context, watchTableManager map[string]ITableManager)
 }
 
 func WithGORM(db *gorm.DB) func(x *tableOptions) {
@@ -41,5 +42,11 @@ func WithTables(tableNames ...string) func(x *tableOptions) {
 func WithAfterStart(fn func(context.Context) error) TableOption {
     return func(o *tableOptions) {
         o.afterStart = append(o.afterStart, fn)
+    }
+}
+
+func WithWatchHandler(fn func(ctx context.Context, watchTableManager map[string]ITableManager)) TableOption {
+    return func(o *tableOptions) {
+        o.watchHandler = fn
     }
 }

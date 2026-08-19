@@ -131,6 +131,7 @@ func (x *TableServer) watch() {
                             continue
                         }
                     }
+                    watchTableManager := make(map[string]ITableManager, len(cTables))
                     for _, cTable := range cTables {
                         iTableManager, ok1 := tableMap[cTable.GetTableName()]
                         cTableHash, ok2 := cTableIndex.GetTableHashMap()[cTable.GetTableName()]
@@ -141,11 +142,15 @@ func (x *TableServer) watch() {
                                     glog.Error(gerror.Wrapf(err, "TableServer watch ITableManager Watch %s Failed", cTable.GetTableName()))
                                     continue
                                 }
+                                watchTableManager[cTable.GetTableName()] = iTableManager
                                 glog.Debugf("TableServer watch ITableManager Watch %s Success", cTable.GetTableName())
                             } else {
                                 glog.Warnf("TableServer watch TableName %s cTable=%d NE cTableHash=%d", cTable.GetTableName(), cTable.GetTableCrc(), cTableHash.GetTableCrc())
                             }
                         }
+                    }
+                    if x.opts.watchHandler != nil {
+                        x.opts.watchHandler(x.ctx, watchTableManager)
                     }
                 }
             }
