@@ -1,16 +1,17 @@
 package mt
 
 import (
-    "fmt"
     "strings"
+
+    "github.com/spf13/cast"
 )
 
 func TableCacheKey(m ITableManager, args ...any) string {
-    var s []string
-    if len(args) > 0 {
-        for _, v := range args {
-            s = append(s, fmt.Sprintf("%v", v))
-        }
+    var sb strings.Builder
+    sb.WriteString(m.TableName())
+    for _, v := range args {
+        sb.WriteString(":")
+        sb.WriteString(cast.ToString(v))
     }
-    return fmt.Sprintf("%s:%s", m.TableName(), strings.Join(s, ":"))
+    return sb.String()
 }
