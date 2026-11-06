@@ -1,11 +1,11 @@
 filippo.io/edwards25519 v1.2.0 h1:crnVqOiS4jqYleHd9vaKZ+HKtHfllngJIiOpNpoJsjo=
 filippo.io/edwards25519 v1.2.0/go.mod h1:xzAOLCNug/yB62zG1bQ8uziwrIqIuxhctzJT18Q77mc=
-gitea.meigushi.go/meigushi/pb v1.0.8 h1:bLl2pae/WhcUosVW71Z0HLum6VWQjTf3LJSVZIlpRyI=
-gitea.meigushi.go/meigushi/pb v1.0.8/go.mod h1:6T5MYiuNhW6ONMNzyLd2MOBoY1L0dwVoDwXAzQGBKuI=
 github.com/camry/dove/v2 v2.0.2 h1:4gHBKiB1IsfPq1FYsGvxPGF09iU4uXepbPFA/51+OWc=
 github.com/camry/dove/v2 v2.0.2/go.mod h1:Jt10Wg0PQGX4aA0vYGASx6tXz1RxeRWvJWpGAtXei/I=
 github.com/camry/g/v2 v2.0.4 h1:BV4USvlTV6MMYQsZbOBDe3M/usJ4Owk5XY7r9WxL7sM=
 github.com/camry/g/v2 v2.0.4/go.mod h1:TaoWbb8mL8VTVyqFDLFSSQLH4mf6pbHW1hyyJxujBpA=
+github.com/camry/pb v1.0.10 h1:HT4J7QX6F6CDc9nxdaQFnOkArXDIrRu7hj50oqvkgsk=
+github.com/camry/pb v1.0.10/go.mod h1:f502SMoB3bsNzvzdgQ6tnNC8CAfRbDsZGCk1KlFA05w=
 github.com/coreos/go-semver v0.3.1 h1:yi21YpKnrx1gt5R+la8n5WgS0kCrsPp33dmEyHReZr4=
 github.com/coreos/go-semver v0.3.1/go.mod h1:irMmmIw/7yzSRPWryHsK7EYSg09caPQL03VsM8rvUec=
 github.com/coreos/go-systemd/v22 v22.7.0 h1:LAEzFkke61DFROc7zNLX/WA2i5J8gYqe0rSj9KI28KA=

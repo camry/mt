@@ -5,9 +5,9 @@ import (
     "fmt"
     "sync"
 
-    "gitea.meigushi.go/meigushi/pb/cpb"
     "github.com/camry/g/v2/gerrors/gerror"
     "github.com/camry/g/v2/glog"
+    "github.com/camry/pb/cpb"
     "github.com/samber/lo"
     "go.etcd.io/etcd/client/v3"
     "google.golang.org/protobuf/encoding/protojson"

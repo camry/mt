@@ -3,9 +3,9 @@ module github.com/camry/mt
 go 1.26.0
 
 require (
-	gitea.meigushi.go/meigushi/pb v1.0.8
 	github.com/camry/dove/v2 v2.0.2
 	github.com/camry/g/v2 v2.0.4
+	github.com/camry/pb v1.0.10
 	github.com/samber/lo v1.53.0
 	github.com/stretchr/testify v1.12.1
 	go.etcd.io/etcd/client/v3 v3.7.3
