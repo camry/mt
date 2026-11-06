@@ -13,7 +13,7 @@ import (
     "gorm.io/gorm"
     "gorm.io/gorm/logger"
 
-    "gitea.meigushi.go/meigushi/mt"
+    "github.com/camry/mt"
 )
 
 func defaultDB() (*gorm.DB, error) {
